@@ -38,6 +38,17 @@ describe('Basic user flow for Website', () => {
     // TODO - Step 1
     // Right now this function is only checking the first <product-item> it found, make it so that
     // it checks every <product-item> it found
+    for (let i = 1; i < prodItems.length; i++){
+      data = await prodItems[i].getProperty('data');
+      // Convert that property to JSON
+      plainValue = await data.jsonValue();
+      // Make sure the title, price, and image are populated in the JSON
+      if (plainValue.title.length == 0) { allArePopulated = false; }
+      if (plainValue.price.length == 0) { allArePopulated = false; }
+      if (plainValue.image.length == 0) { allArePopulated = false; }
+    }
+    // Expect allArePopulated to still be true
+    expect(allArePopulated).toBe(true);
 
   }, 10000);
 
@@ -50,6 +61,13 @@ describe('Basic user flow for Website', () => {
     // Grab the shadowRoot of that element (it's a property), then query a button from that shadowRoot.
     // Once you have the button, you can click it and check the innerText property of the button.
     // Once you have the innerText property, use innerText.jsonValue() to get the text value of it
+    let prodIt = await page.$("product-item");
+    let SR = await prodIt.getProperty("shadowRoot");
+    let button = await SR.$("button");
+    await button.click();
+    let bText = await (await button.getProperty('innerText')).jsonValue();
+    expect(bText).toBe('Removed from Cart');
+    await button.click();
   }, 2500);
 
   // Check to make sure that after clicking "Add to Cart" on every <product-item> that the Cart
@@ -60,6 +78,17 @@ describe('Basic user flow for Website', () => {
     // Query select all of the <product-item> elements, then for every single product element
     // get the shadowRoot and query select the button inside, and click on it.
     // Check to see if the innerText of #cart-count is 20
+    const prodItems = await page.$$('product-item');
+    for (let i = 0; i < prodItems.length; i++){
+      let SR = await prodItems[i].getProperty("shadowRoot");
+      let button = await SR.$("button");
+      await button.click();
+    }
+
+    let cart = await page.$('#cart-count');
+    let cNum = await (await cart.getProperty('innerText')).jsonValue();
+    
+    expect(cNum).toBe('20');
   }, 10000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
