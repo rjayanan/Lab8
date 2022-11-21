@@ -51,12 +51,12 @@ test('isEmail No @ InValid', () => {
 
 // Test 1 Good
 test('isStrongPassword Valid', () => {
-    expect(functions.isStrongPassword('bob@gmail.com')).toBe(true);
+    expect(functions.isStrongPassword('Clk3l12d4')).toBe(true);
   });
 
   // Test 2 Good
 test('isStrongPassword Company Valid', () => {
-    expect(functions.isStrongPassword('rjayanan@ucsd.edu')).toBe(true);
+    expect(functions.isStrongPassword('Drt3e45r')).toBe(true);
   });
   // Test 3 Bad
 test('isStrongPassword Age InValid', () => {
@@ -74,8 +74,45 @@ test('isStrongPassword Email InValid', () => {
 
 // Function 4
 
+// Test 1 Good
+test('isDate Valid', () => {
+    expect(functions.isDate('10/15/1990')).toBe(true);
+  });
+
+  // Test 2 Good
+test('isDate Birthday Valid', () => {
+    expect(functions.isDate('11/14/2002')).toBe(true);
+  });
+  // Test 3 Bad
+test('isDate Age InValid', () => {
+    expect(functions.isDate('20')).toBe(false);
+  });
+
+  // Test 4 Bad
+
+test('isDate Email InValid', () => {
+    expect(functions.isDate('rjayananucsd.edu')).toBe(false);
+  });
+
 
 // Function 5
 
+// Test 1 Good
+test('isHexColor White Valid', () => {
+    expect(functions.isHexColor('#FFFFFF')).toBe(true);
+  });
 
-// TODO - Part 2
+  // Test 2 Good
+test('isHexColor Black Valid', () => {
+    expect(functions.isHexColor('#000000')).toBe(true);
+  });
+  // Test 3 Bad
+test('isHexColor Age InValid', () => {
+    expect(functions.isHexColor('20')).toBe(false);
+  });
+
+  // Test 4 Bad
+
+test('isHexColor Email InValid', () => {
+    expect(functions.isHexColor('rjayananucsd.edu')).toBe(false);
+  });
